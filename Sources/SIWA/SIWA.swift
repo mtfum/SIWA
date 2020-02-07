@@ -7,18 +7,18 @@ import AuthenticationServices
 
 extension String: Error {}
 
-open struct SIWA: View {
+public struct SIWA: View {
 
-  open struct Credential {
+  public struct Credential {
     let idToken: String
     let rawNonce: String
   }
 
-  private let result: (Result<SIWACredential, Error>) -> Void
+  private let result: (Result<Credential, Error>) -> Void
 
   private let button: UIControl
 
-  open init(button: UIControl = ASAuthorizationAppleIDButton(), result: @escaping (Result<SIWACredential, Error>) -> Void) {
+  public init(button: UIControl = ASAuthorizationAppleIDButton(), result: @escaping (Result<Credential, Error>) -> Void) {
     self.button = button
     self.result = result
   }
@@ -31,7 +31,7 @@ open struct SIWA: View {
 
   private struct Controller: UIViewControllerRepresentable {
 
-    let credentialResult: (Result<SIWACredential, Error>) -> Void
+    let credentialResult: (Result<Credential, Error>) -> Void
 
     let button: UIControl
 
