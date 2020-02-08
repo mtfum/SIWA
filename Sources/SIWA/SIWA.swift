@@ -1,4 +1,4 @@
-#if !os(macOS)
+#if os(iOS)
 import UIKit
 import SwiftUI
 import Combine
@@ -7,18 +7,19 @@ import AuthenticationServices
 
 extension String: Error {}
 
+@available(iOS 13, *)
 public struct SIWA: View {
 
   public struct Credential {
-    let idToken: String
-    let rawNonce: String
+    public let idToken: String
+    public let rawNonce: String
   }
 
   private let result: (Result<Credential, Error>) -> Void
 
   private let button: UIControl
 
-  public init(button: UIControl = ASAuthorizationAppleIDButton(), result: @escaping (Result<Credential, Error>) -> Void) {
+  public init(button: UIControl = ASAuthorizationAppleIDButton(type: .default, style: .whiteOutline), result: @escaping (Result<Credential, Error>) -> Void) {
     self.button = button
     self.result = result
   }
