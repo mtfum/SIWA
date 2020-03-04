@@ -19,35 +19,33 @@ public struct SIWA: View {
 
   private let button: UIControl
 
-  public init(button: UIControl = ASAuthorizationAppleIDButton(type: .default, style: .whiteOutline), result: @escaping (Result<Credential, Error>) -> Void) {
+  public init(
+    button: UIControl = ASAuthorizationAppleIDButton(type: .default, style: .whiteOutline),
+    result: @escaping (Result<Credential, Error>) -> Void
+  ) {
     self.button = button
     self.result = result
   }
 
   public var body: some View {
-    let controller = Controller(credentialResult: result, button: button)
-    return controller
-      .frame(width: controller.button.frame.width, height: controller.button.frame.height, alignment: .center)
+    Controller(credentialResult: result, button: button)
   }
 
-  private struct Controller: UIViewControllerRepresentable {
+  private struct Controller: UIViewRepresentable {
 
     let credentialResult: (Result<Credential, Error>) -> Void
 
     let button: UIControl
 
-    let vc: UIViewController = UIViewController()
-
     func makeCoordinator() -> Coordinator {
-      return Coordinator(self)
+      Coordinator(self)
     }
 
-    func makeUIViewController(context: Context) -> UIViewController {
-      vc.view.addSubview(button)
-      return vc
+    func makeUIView(context: Context) -> UIControl {
+      button
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
+    func updateUIView(_ uiView: UIControl, context: UIViewRepresentableContext<SIWA.Controller>) { }
 
     final class Coordinator: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
 
@@ -75,7 +73,7 @@ public struct SIWA: View {
       }
 
       func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        parent.vc.view.window!
+        parent.button.window!
       }
 
       func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
@@ -145,4 +143,13 @@ public struct SIWA: View {
     }
   }
 }
+
+@available(iOS 13, *)
+struct SIWA_Previews: PreviewProvider {
+  static var previews: some View {
+    SIWA() { _ in }
+      .frame(width: 200, height: 40, alignment: .center)
+  }
+}
+
 #endif
