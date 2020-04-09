@@ -1,7 +1,7 @@
 import XCTest
-@testable import SIWA
+@testable import Siwa
 
-final class SIWATests: XCTestCase {
+final class SiwaTests: XCTestCase {
   func testExample() {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct
