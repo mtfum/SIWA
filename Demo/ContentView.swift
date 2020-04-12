@@ -10,19 +10,26 @@ import Siwa
 
 struct ContentView: View {
 
+  @State var siwaCoordinator: SiwaCoordinator?
+
   var body: some View {
     VStack {
       Button("do what something with Apple", action: {
-        SiwaCoordinator(credentialResult: { result in
+        self.siwaCoordinator = SiwaCoordinator(credentialResult: { result in
           switch result {
           case let .success(c):
             print("success:", c)
           case let .failure(error):
             print("error:", error)
           }
-        }).requestAuthorization()
+        })
+        self.siwaCoordinator?.requestAuthorization()
       })
-      .frame(width: 200, height: 50, alignment: .center)
+        .frame(width: 240, height: 50, alignment: .center)
+//        .cornerRadius(8)
+        .border(Color.blue, width: 1)
+
+
       SiwaButton() { result in
         switch result {
         case let .success(c):
@@ -31,7 +38,7 @@ struct ContentView: View {
           print("error:", error)
         }
       }
-      .frame(width: 200, height: 50, alignment: .center)
+      .frame(width: 240, height: 50, alignment: .center)
     }
   }
 }
